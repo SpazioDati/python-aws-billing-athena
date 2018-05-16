@@ -40,7 +40,7 @@ STORED AS INPUTFORMAT
 OUTPUTFORMAT
   'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
 LOCATION
-  '&&&BUCKET&&&/&&&FOLDER&&&'
+  '{bucket}/{folder}'
 TBLPROPERTIES (
   'skip.header.line.count'='1',
   'has_encrypted_data'='false',

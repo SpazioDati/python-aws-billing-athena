@@ -46,26 +46,18 @@ Now you need to substitute the names of:
 * the name of the "folder" where you want to save the unzipped and well ordered csv files (just a plain name, like `for_athena`)
 * the Athena db where the table will be created (the name of the db you created in step 2)
 
-You can either do it manually (you will find &&&BUCKET&&&, &&&DB&&& and &&&FOLDER&&& in the code) or use these commands:
-
-* install sed : `sudo apt-get install sed`
-
-* `sed -i 's/&&&DB&&&/your_db_name/g' files_unzipping_and_moving_lambda.py`
-* `sed -i 's/&&&BUCKET&&&/your_bucket_name/g' files_unzipping_and_moving_lambda.py`
-* `sed -i 's/&&&BUCKET&&&/your_bucket_name/g' table_creation.txt`
-* `sed -i 's/&&&FOLDER&&&/your_folder_name/g' files_unzipping_and_moving_lambda.py`
-* `sed -i 's/&&&FOLDER&&&/your_folder_name/g' table_creation.txt`
+Just go into `config.py` and change the variables there!
 
 #### 6. Zip the scripts and upload
 
 * `cd code`
-* `zip -r lambda.zip lambda_function.py table_creation.txt`
+* `zip -r lambda.zip *`
 
 Now in the lambda dashboard choose "upload zip file", then upload the zip!
 
 #### 7. Test
 
-You can set un test cases, or just duplicate one of the zips.
+You can set up test cases, or just duplicate one of the zips.
 Note that the file you pick should contain `aws-billing-detailed-line-items-with-resources-and-tags` :
 that one is the kind used by the script.
 
