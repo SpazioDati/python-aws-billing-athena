@@ -35,7 +35,7 @@ Just create a Database using the wizard and keep the name handy.
 Create a IAM role with read-write access to the billing bucket, as well as access to Athena.
 
 #### 4. Create a Lambda function
-* Using the wizard, just choose `Author from scratch` and then use the role you just created
+* Using the wizard, just choose `Author from scratch` and then use the role you just created and python 3.6 runtime
 * Go into the settings and give it all the possible memory, as well as a timeout of at least 2 minutes
 * Set up a trigger for the billing bucket, and keep the default `Object Created (All)` setting.
 You don't need to necessarily use prefixes or suffixes, as the lambda has a regex check in it. But they don't hurt.
