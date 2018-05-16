@@ -1,14 +1,16 @@
 import re
-from zipfile import *
-import boto3
 from time import sleep
+from zipfile import ZipFile
+
+import boto3
 import config
 
 s3_client = boto3.client('s3')
 s3_resource = boto3.resource('s3')
 athena_client = boto3.client('athena')
 
-key_regex = r'^(?:\d*)-aws-billing-detailed-line-items-with-resources-and-tags-(\d{4})-(\d{2})\.csv\.zip$'
+key_regex = r'^(?:\d*)-aws-billing-detailed-' \
+            r'line-items-with-resources-and-tags-(\d{4})-(\d{2})\.csv\.zip$'
 output_key = "{folder}/year={year}/month={month}/aws-billing.csv"
 
 
@@ -51,12 +53,15 @@ def lambda_handler(event, context):
             with open('/tmp/temp.zip', 'wb+') as input_file:
                 s3_client.download_fileobj(bucket, key, input_file)
                 input_file = extract_zip(input_file)
-                s3_resource.Object(bucket, output_key.format(year=year, month=month, folder= config.FOLDER)).put(Body=input_file)
+                s3_resource.Object(bucket, output_key.format(
+                    year=year, month=month, folder=config.FOLDER)).put(
+                    Body=input_file)
 
             athena_query(athena_client, 'DROP TABLE aws_billing')
 
             with open("table_creation.txt", "r") as myfile:
-                query = myfile.read().replace('\n', '').format(bucket=config.BUCKET, folder=config.FOLDER)
+                query = myfile.read().replace('\n', '').format(
+                    bucket=config.BUCKET, folder=config.FOLDER)
 
             athena_query(athena_client, query)
 
