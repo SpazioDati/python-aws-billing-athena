@@ -1,0 +1,47 @@
+CREATE EXTERNAL TABLE `aws_billing`(
+  `invoiceid` string COMMENT 'from deserializer',
+  `payeraccountid` string COMMENT 'from deserializer',
+  `linkedaccountid` string COMMENT 'from deserializer',
+  `recordtype` string COMMENT 'from deserializer',
+  `recordid` string COMMENT 'from deserializer',
+  `productname` string COMMENT 'from deserializer',
+  `rateid` string COMMENT 'from deserializer',
+  `subscriptionid` string COMMENT 'from deserializer',
+  `pricingplanid` string COMMENT 'from deserializer',
+  `usagetype` string COMMENT 'from deserializer',
+  `operation` string COMMENT 'from deserializer',
+  `availabilityzone` string COMMENT 'from deserializer',
+  `reservedinstance` string COMMENT 'from deserializer',
+  `itemdescription` string COMMENT 'from deserializer',
+  `usagestartdate` string COMMENT 'from deserializer',
+  `usageenddate` string COMMENT 'from deserializer',
+  `usagequantity` double ,
+  `blendedrate` double,
+  `blendedcost` double,
+  `unblendedrate` double,
+  `unblendedcost` double,
+  `resourceid` string COMMENT 'from deserializer',
+  `user_application` string COMMENT 'from deserializer',
+  `user_component` string COMMENT 'from deserializer',
+  `user_group` string COMMENT 'from deserializer',
+  `user_name` string COMMENT 'from deserializer',
+  `user_project` string COMMENT 'from deserializer')
+PARTITIONED BY (
+  `year` string,
+  `month` string)
+ROW FORMAT SERDE
+  'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+  'escapeChar'='\\',
+  'quoteChar'='\"',
+  'separatorChar'=',')
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
+LOCATION
+  '&&&BUCKET&&&/&&&FOLDER&&&'
+TBLPROPERTIES (
+  'skip.header.line.count'='1',
+  'has_encrypted_data'='false',
+  'transient_lastDdlTime'='1525447478')
